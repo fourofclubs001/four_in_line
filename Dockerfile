@@ -2,7 +2,7 @@
 FROM python:3.10.9-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget nano git && \
+    wget nano git openssh-client && \
     rm -rf /var/lib/apt/lists/*
 RUN apt-get upgrade -y
 
