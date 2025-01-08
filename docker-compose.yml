@@ -14,3 +14,4 @@ services:
       - "${CONTAINER_PORT}:8888"
     volumes:
       - ${CONTAINER_WORKSPACE}:/workspace
+      - ${CONTAINER_SSH}:/root/.ssh:ro
