@@ -31,6 +31,28 @@ class TestFourInLine(unittest.TestCase):
 
         self.assertEqual(board[0][0], BLUE_CHIP)
 
+    def test_can_insert_chip_over_another_chip(self):
+
+        self.game.insertChipAt(BLUE_CHIP, 3)
+        self.game.insertChipAt(BLUE_CHIP, 3)
+
+        board = self.game.getBoard()
+
+        self.assertEqual(board[1][3], BLUE_CHIP)
+        self.assertEqual(board[2][3], EMPTY_PLACE)
+
+    def test_can_check_if_a_column_is_full(self):
+
+        for row in range(self.height-1):
+
+            self.game.insertChipAt(BLUE_CHIP, 2)
+
+        self.assertFalse(self.game.isColumnFull(2))
+
+        self.game.insertChipAt(BLUE_CHIP, 2)
+
+        self.assertTrue(self.game.isColumnFull(2))
+
     def test_raise_error_when_trying_to_insert_unknow_chip(self):
 
         self.game.insertChipAt(BLUE_CHIP, 0)
@@ -44,7 +66,7 @@ class TestFourInLine(unittest.TestCase):
 
         self.assertEqual(e.exception.args[0], f"Cannot insert a chip with value different from BLUE_CHIP or RED_CHIP: given chip value {unkownChip}")
 
-    def test_raise_error_when_trying_to_insert_chip_in_out_of_range_column(self):
+    def test_raise_error_when_trying_to_insert_chip_at_out_of_range_column(self):
 
         with self.assertRaises(CannotInsertChipAtOutOfRangeColumn) as e:
 
@@ -57,3 +79,23 @@ class TestFourInLine(unittest.TestCase):
             self.game.insertChipAt(BLUE_CHIP, self.width)
 
         self.assertEqual(e.exception.args[0], f"Can not insert chip at out of range column. Column number must be between 0 and {self.width-1}, but given number was {self.width}")
+
+    def test_raise_error_when_insert_chip_on_a_full_column(self):
+
+        column = 2
+
+        for row in range(self.height):
+
+            self.game.insertChipAt(BLUE_CHIP, column)
+
+        self.assertTrue(self.game.isColumnFull(column))
+
+        with self.assertRaises(CannotInsertChipOnAFullColumn) as e:
+
+            self.game.insertChipAt(BLUE_CHIP, column)
+
+        self.assertEqual(e.exception.args[0], f"Can not insert chip on column {column} because is full")
+
+    def test_raise_error_when_checking_full_column_at_out_of_range_column(self):
+
+        self.assertTrue(False)
