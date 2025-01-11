@@ -106,12 +106,16 @@ class TestFourInLine(unittest.TestCase):
 
         self.assertEqual(self.game.getWinner(), BLUE_CHIP)
 
-    def test_can_check_when_and_who_is_the_winner_by_vertical_line(self):
+    def play_until_almost_win_by_vertical(self):
 
         for row in range(3):
 
             self.game.insertAt(0)
             self.game.insertAt(1)
+
+    def test_can_check_when_and_who_is_the_winner_by_vertical_line(self):
+
+        self.play_until_almost_win_by_vertical()
 
         self.game.insertAt(2)
 

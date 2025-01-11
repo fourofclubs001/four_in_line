@@ -87,49 +87,54 @@ class FourInLine:
 
         return self.board[self.height-1][column] != EMPTY_PLACE
 
-    def updateWinnerByHorizontal(self):
+    def updateConsecutiveChip(self, sameInLine: int, row: int, column: int)-> int:
+
+        if (self.board[row][column] == BLUE_CHIP or
+            self.board[row][column] == RED_CHIP):
+
+            sameInLine += 1
+
+            if sameInLine == 3: 
+                        
+                self.thereIsAWinner = True
+                self.winner = self.board[row][column]
+
+        return sameInLine
+
+    def updateWinnerByStraightLine(self, 
+                                   firstAxisLenght: int,
+                                   secondAxisLenght: int,
+                                   checkLineOnFirstAxis: bool):
 
         sameInLine = 0
 
-        for row in range(self.height):
+        for firstAxis in range(firstAxisLenght):
 
-            for column in range(1, self.width):
+            for secondAxis in range(1, secondAxisLenght):
 
-                if self.board[row][column-1] == self.board[row][column]:
+                if not checkLineOnFirstAxis:
 
-                    if (self.board[row][column] == BLUE_CHIP or
-                        self.board[row][column] == RED_CHIP):
+                    if self.board[firstAxis][secondAxis-1] == self.board[firstAxis][secondAxis]:
 
-                        sameInLine += 1
+                        sameInLine = self.updateConsecutiveChip(sameInLine, firstAxis, secondAxis)
 
-                    if sameInLine == 3: 
-                        
-                        self.thereIsAWinner = True
-                        self.winner = self.board[row][column]
+                    else: sameInLine = 0
 
-                else: sameInLine = 0
+                else:
+
+                    if self.board[secondAxis-1][firstAxis] == self.board[secondAxis][firstAxis]:
+
+                        sameInLine = self.updateConsecutiveChip(sameInLine, secondAxis, firstAxis)
+
+                    else: sameInLine = 0
+
+    def updateWinnerByHorizontal(self):
+
+        self.updateWinnerByStraightLine(self.height, self.width, False)
 
     def updateWinnerByVertical(self):
 
-        sameInLine = 0
-
-        for column in range(self.width):
-                
-            for row in range(1, self.height):
-
-                if self.board[row-1][column] == self.board[row][column]:
-
-                    if (self.board[row][column] == BLUE_CHIP or
-                        self.board[row][column] == RED_CHIP):
-
-                        sameInLine += 1
-
-                    if sameInLine == 3: 
-                        
-                        self.thereIsAWinner = True
-                        self.winner = self.board[row][column]
-
-                else: sameInLine = 0
+        self.updateWinnerByStraightLine(self.width, self.height, True)
 
     def updateWinner(self):
 
