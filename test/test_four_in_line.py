@@ -53,6 +53,21 @@ class TestFourInLine(unittest.TestCase):
 
         self.assertTrue(self.game.isColumnFull(2))
 
+    def test_can_take_turns(self):
+
+        self.game.insertAt(0)
+        self.game.insertAt(1)
+        self.game.insertAt(1)
+        self.game.insertAt(0)
+
+        board = self.game.getBoard()
+
+        self.assertEqual(board[0][0], BLUE_CHIP)
+        self.assertEqual(board[0][1], RED_CHIP)
+        self.assertEqual(board[1][1], BLUE_CHIP)
+        self.assertEqual(board[1][0], RED_CHIP)
+
+
     def test_raise_error_when_trying_to_insert_unknow_chip(self):
 
         self.game.insertChipAt(BLUE_CHIP, 0)

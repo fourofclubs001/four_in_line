@@ -31,6 +31,8 @@ class FourInLine:
 
         self.board = np.repeat(EMPTY_PLACE, self.width*self.height).reshape((self.height, self.width))
 
+        self.nextChip = BLUE_CHIP
+
     def getBoard(self)-> np.ndarray:
 
         return self.board
@@ -65,6 +67,15 @@ class FourInLine:
 
                 self.board[row][column] = chip
                 break
+
+    def insertAt(self, column: int):
+
+        self.insertChipAt(self.nextChip, column)
+
+        lastChip = self.nextChip
+
+        if lastChip == BLUE_CHIP: self.nextChip = RED_CHIP
+        if lastChip == RED_CHIP: self.nextChip = BLUE_CHIP
 
     def isColumnFull(self, column: int)-> bool:
 
