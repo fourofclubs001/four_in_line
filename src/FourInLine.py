@@ -35,19 +35,29 @@ class FourInLine:
 
         return self.board
     
-    def insertChipAt(self, chip: str, column: int):
+    def assertValidChip(self, chip: str):
 
         if chip != BLUE_CHIP and chip != RED_CHIP:
 
             raise CannotInsertUnkownChip(chip)
-        
+
+    def assertColumnInRange(self, column: int):
+
         if not (0 <= column and column < self.width):
 
             raise CannotInsertChipAtOutOfRangeColumn(self.width, column)
 
+    def assertColumnIsNotFull(self, column: int):
+
         if self.isColumnFull(column):
 
             raise CannotInsertChipOnAFullColumn(column)
+
+    def insertChipAt(self, chip: str, column: int):
+
+        self.assertValidChip(chip)
+        self.assertColumnInRange(column)
+        self.assertColumnIsNotFull(column)
 
         for row in range(self.height):
 
