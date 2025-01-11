@@ -42,4 +42,14 @@ class TestFourInLine(unittest.TestCase):
 
     def test_raise_error_when_trying_to_insert_chip_in_out_of_range_column(self):
 
-        self.assertTrue(False)
+        with self.assertRaises(CannotInsertChipAtOutOfRangeColumn) as e:
+
+            self.game.insertChipAt(BLUE_CHIP, -1)
+
+        self.assertEqual(e.exception.args[0], f"Can not insert chip at out of range column. Column number must be between 0 and {self.width-1}, but given number was -1")
+
+        with self.assertRaises(CannotInsertChipAtOutOfRangeColumn) as e:
+
+            self.game.insertChipAt(BLUE_CHIP, self.width)
+
+        self.assertEqual(e.exception.args[0], f"Can not insert chip at out of range column. Column number must be between 0 and {self.width-1}, but given number was {self.width}")
