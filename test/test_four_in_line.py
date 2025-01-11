@@ -106,9 +106,22 @@ class TestFourInLine(unittest.TestCase):
 
         self.assertEqual(self.game.getWinner(), BLUE_CHIP)
 
-    def test_can_check_when_winner_by_vertical_line(self):
+    def test_can_check_when_and_who_is_the_winner_by_vertical_line(self):
 
-        self.assertTrue(False)
+        for row in range(3):
+
+            self.game.insertAt(0)
+            self.game.insertAt(1)
+
+        self.game.insertAt(2)
+
+        self.assertFalse(self.game.isThereAWinner())
+
+        self.game.insertAt(1)
+
+        self.assertTrue(self.game.isThereAWinner())
+
+        self.assertEqual(self.game.getWinner(), RED_CHIP)
 
     def test_can_check_when_winner_by_positive_diagonal_line(self):
 
