@@ -36,9 +36,13 @@ class TestFourInLine(unittest.TestCase):
         self.game.insertChipAt(BLUE_CHIP, 0)
         self.game.insertChipAt(RED_CHIP, 1)
 
+        unkownChip = "unkown chip"
+
         with self.assertRaises(CannotInsertUnkownChip) as e:
 
-            self.game.insertChipAt("unkown chip", 2)
+            self.game.insertChipAt(unkownChip, 2)
+
+        self.assertEqual(e.exception.args[0], f"Cannot insert a chip with value different from BLUE_CHIP or RED_CHIP: given chip value {unkownChip}")
 
     def test_raise_error_when_trying_to_insert_chip_in_out_of_range_column(self):
 
