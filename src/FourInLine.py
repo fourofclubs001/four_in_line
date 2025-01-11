@@ -10,23 +10,17 @@ class CannotInsertUnkownChip(Exception):
 
         super().__init__(f"Cannot insert a chip with value different from BLUE_CHIP or RED_CHIP: given chip value {chip}")
 
-class CannotInsertChipAtOutOfRangeColumn(Exception):
+class OutOfRangeColumn(Exception):
 
     def __init__(self, width: int, column: int):
 
-        super().__init__(f"Can not insert chip at out of range column. Column number must be between 0 and {width-1}, but given number was {column}")
+        super().__init__(f"Column number must be between 0 and {width-1}, but given number was {column}")
 
 class CannotInsertChipOnAFullColumn(Exception):
 
     def __init__(self, column: int):
 
         super().__init__(f"Can not insert chip at column {column} because is full")
-
-class CannotCheckFullColumnAtOutOfRangeColumn(Exception):
-
-    def __init__(self, width: int, column: int):
-
-        super().__init__(f"Can not check full column at out of range column. Column number must be between 0 and {width-1}, but given number was {column}")
 
 class FourInLine:
 
@@ -51,7 +45,7 @@ class FourInLine:
 
         if not (0 <= column and column < self.width):
 
-            raise CannotInsertChipAtOutOfRangeColumn(self.width, column)
+            raise OutOfRangeColumn(self.width, column)
 
     def assertColumnIsNotFull(self, column: int):
 
@@ -74,8 +68,6 @@ class FourInLine:
 
     def isColumnFull(self, column: int)-> bool:
 
-        if not (0 <= column and column < self.width):
-
-            raise CannotCheckFullColumnAtOutOfRangeColumn(self.width, column)
+        self.assertColumnInRange(column)
 
         return self.board[self.height-1][column] != EMPTY_PLACE

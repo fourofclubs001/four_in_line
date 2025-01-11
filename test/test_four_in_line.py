@@ -66,19 +66,23 @@ class TestFourInLine(unittest.TestCase):
 
         self.assertEqual(e.exception.args[0], f"Cannot insert a chip with value different from BLUE_CHIP or RED_CHIP: given chip value {unkownChip}")
 
+    def get_out_of_range_message(self, column: int)-> str:
+
+        return f"Column number must be between 0 and {self.width-1}, but given number was {column}"
+
     def test_raise_error_when_trying_to_insert_chip_at_out_of_range_column(self):
 
-        with self.assertRaises(CannotInsertChipAtOutOfRangeColumn) as e:
+        with self.assertRaises(OutOfRangeColumn) as e:
 
             self.game.insertChipAt(BLUE_CHIP, -1)
 
-        self.assertEqual(e.exception.args[0], f"Can not insert chip at out of range column. Column number must be between 0 and {self.width-1}, but given number was -1")
+        self.assertEqual(e.exception.args[0], self.get_out_of_range_message(-1))
 
-        with self.assertRaises(CannotInsertChipAtOutOfRangeColumn) as e:
+        with self.assertRaises(OutOfRangeColumn) as e:
 
             self.game.insertChipAt(BLUE_CHIP, self.width)
 
-        self.assertEqual(e.exception.args[0], f"Can not insert chip at out of range column. Column number must be between 0 and {self.width-1}, but given number was {self.width}")
+        self.assertEqual(e.exception.args[0], self.get_out_of_range_message(self.width))
 
     def test_raise_error_when_insert_chip_on_a_full_column(self):
 
@@ -98,14 +102,14 @@ class TestFourInLine(unittest.TestCase):
 
     def test_raise_error_when_checking_full_column_at_out_of_range_column(self):
 
-        with self.assertRaises(CannotCheckFullColumnAtOutOfRangeColumn) as e:
+        with self.assertRaises(OutOfRangeColumn) as e:
 
             self.game.isColumnFull(-1)
 
-        self.assertEqual(e.exception.args[0], f"Can not check full column at out of range column. Column number must be between 0 and {self.width-1}, but given number was -1")
+        self.assertEqual(e.exception.args[0], self.get_out_of_range_message(-1))
 
-        with self.assertRaises(CannotCheckFullColumnAtOutOfRangeColumn) as e:
+        with self.assertRaises(OutOfRangeColumn) as e:
 
             self.game.isColumnFull(self.width)
 
-        self.assertEqual(e.exception.args[0], f"Can not check full column at out of range column. Column number must be between 0 and {self.width-1}, but given number was {self.width}")
+        self.assertEqual(e.exception.args[0], self.get_out_of_range_message(self.width))
