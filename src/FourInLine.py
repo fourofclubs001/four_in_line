@@ -12,15 +12,21 @@ class CannotInsertUnkownChip(Exception):
 
 class CannotInsertChipAtOutOfRangeColumn(Exception):
 
-    def __init__(self, width: int, outOfRangeColumn: int):
+    def __init__(self, width: int, column: int):
 
-        super().__init__(f"Can not insert chip at out of range column. Column number must be between 0 and {width-1}, but given number was {outOfRangeColumn}")
+        super().__init__(f"Can not insert chip at out of range column. Column number must be between 0 and {width-1}, but given number was {column}")
 
 class CannotInsertChipOnAFullColumn(Exception):
 
     def __init__(self, column: int):
 
-        super().__init__(f"Can not insert chip on column {column} because is full")
+        super().__init__(f"Can not insert chip at column {column} because is full")
+
+class CannotCheckFullColumnAtOutOfRangeColumn(Exception):
+
+    def __init__(self, width: int, column: int):
+
+        super().__init__(f"Can not check full column at out of range column. Column number must be between 0 and {width-1}, but given number was {column}")
 
 class FourInLine:
 
@@ -67,5 +73,9 @@ class FourInLine:
                 break
 
     def isColumnFull(self, column: int)-> bool:
+
+        if not (0 <= column and column < self.width):
+
+            raise CannotCheckFullColumnAtOutOfRangeColumn(self.width, column)
 
         return self.board[self.height-1][column] != EMPTY_PLACE

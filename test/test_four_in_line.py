@@ -94,8 +94,18 @@ class TestFourInLine(unittest.TestCase):
 
             self.game.insertChipAt(BLUE_CHIP, column)
 
-        self.assertEqual(e.exception.args[0], f"Can not insert chip on column {column} because is full")
+        self.assertEqual(e.exception.args[0], f"Can not insert chip at column {column} because is full")
 
     def test_raise_error_when_checking_full_column_at_out_of_range_column(self):
 
-        self.assertTrue(False)
+        with self.assertRaises(CannotCheckFullColumnAtOutOfRangeColumn) as e:
+
+            self.game.isColumnFull(-1)
+
+        self.assertEqual(e.exception.args[0], f"Can not check full column at out of range column. Column number must be between 0 and {self.width-1}, but given number was -1")
+
+        with self.assertRaises(CannotCheckFullColumnAtOutOfRangeColumn) as e:
+
+            self.game.isColumnFull(self.width)
+
+        self.assertEqual(e.exception.args[0], f"Can not check full column at out of range column. Column number must be between 0 and {self.width-1}, but given number was {self.width}")
