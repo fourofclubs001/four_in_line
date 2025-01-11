@@ -82,3 +82,26 @@ class FourInLine:
         self.assertColumnInRange(column)
 
         return self.board[self.height-1][column] != EMPTY_PLACE
+    
+    def isThereAWinner(self):
+
+        sameInLine = 0
+
+        thereIsAWinner = False
+
+        for row in range(self.height):
+
+            for column in range(1, self.width):
+
+                if self.board[row][column-1] == self.board[row][column]:
+
+                    if (self.board[row][column] == BLUE_CHIP or
+                        self.board[row][column] == RED_CHIP):
+
+                        sameInLine += 1
+
+                    if sameInLine == 3: thereIsAWinner = True
+
+                else: sameInLine = 0
+
+        return thereIsAWinner
