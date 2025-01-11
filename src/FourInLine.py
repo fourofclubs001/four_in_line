@@ -33,6 +33,8 @@ class FourInLine:
 
         self.nextChip = BLUE_CHIP
 
+        self.thereIsAWinner = False
+
     def getBoard(self)-> np.ndarray:
 
         return self.board
@@ -77,17 +79,17 @@ class FourInLine:
         if lastChip == BLUE_CHIP: self.nextChip = RED_CHIP
         if lastChip == RED_CHIP: self.nextChip = BLUE_CHIP
 
+        self.updateWinner()
+
     def isColumnFull(self, column: int)-> bool:
 
         self.assertColumnInRange(column)
 
         return self.board[self.height-1][column] != EMPTY_PLACE
     
-    def isThereAWinner(self):
+    def updateWinner(self):
 
         sameInLine = 0
-
-        thereIsAWinner = False
 
         for row in range(self.height):
 
@@ -100,8 +102,17 @@ class FourInLine:
 
                         sameInLine += 1
 
-                    if sameInLine == 3: thereIsAWinner = True
+                    if sameInLine == 3: 
+                        
+                        self.thereIsAWinner = True
+                        self.winner = self.board[row][column]
 
                 else: sameInLine = 0
 
-        return thereIsAWinner
+    def isThereAWinner(self):
+
+        return self.thereIsAWinner
+    
+    def getWinner(self)-> str:
+
+        return self.winner

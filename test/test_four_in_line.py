@@ -67,12 +67,16 @@ class TestFourInLine(unittest.TestCase):
         self.assertEqual(board[1][1], BLUE_CHIP)
         self.assertEqual(board[1][0], RED_CHIP)
 
-    def test_can_check_when_winner_by_horizontal_line_on_first_row(self):
+    def play_until_almost_win_by_horizontal(self):
 
         for column in range(3):
 
             self.game.insertAt(column)
             self.game.insertAt(column)
+
+    def test_can_check_when_winner_by_horizontal_line_on_first_row(self):
+
+        self.play_until_almost_win_by_horizontal()
 
         self.assertFalse(self.game.isThereAWinner())
 
@@ -82,10 +86,7 @@ class TestFourInLine(unittest.TestCase):
 
     def test_can_check_when_winner_by_horizontal_line(self):
 
-        for column in range(3):
-
-            self.game.insertAt(column)
-            self.game.insertAt(column)
+        self.play_until_almost_win_by_horizontal()
 
         self.game.insertAt(0)
         self.game.insertAt(3)
@@ -96,6 +97,14 @@ class TestFourInLine(unittest.TestCase):
         self.game.insertAt(3)
 
         self.assertTrue(self.game.isThereAWinner())
+
+    def test_can_check_who_is_the_winner_by_horizontal(self):
+
+        self.play_until_almost_win_by_horizontal()
+
+        self.game.insertAt(3)
+
+        self.assertEqual(self.game.getWinner(), BLUE_CHIP)
 
     def test_can_check_when_winner_by_vertical_line(self):
 
