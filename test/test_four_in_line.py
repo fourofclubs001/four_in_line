@@ -67,6 +67,37 @@ class TestFourInLine(unittest.TestCase):
         self.assertEqual(board[1][1], BLUE_CHIP)
         self.assertEqual(board[1][0], RED_CHIP)
 
+    def test_can_check_when_winner_by_horizontal_line(self):
+
+        self.assertTrue(False)
+
+    def test_can_check_when_winner_by_vertical_line(self):
+
+        self.assertTrue(False)
+
+    def test_can_check_when_winner_by_positive_diagonal_line(self):
+
+        self.assertTrue(False)
+
+    def test_can_check_when_winner_by_negative_diagonal_line(self):
+
+        self.assertTrue(False)
+
+    def test_can_check_if_there_is_a_winner(self):
+
+        self.assertTrue(False)
+
+    def test_can_check_who_is_the_winner(self):
+
+        self.assertTrue(False)
+
+    def test_can_check_if_there_is_a_tie(self):
+
+        self.assertTrue(False)
+
+    def test_can_check_if_game_is_over(self):
+
+        self.assertTrue(False)
 
     def test_raise_error_when_trying_to_insert_unknow_chip(self):
 
@@ -128,3 +159,7 @@ class TestFourInLine(unittest.TestCase):
             self.game.isColumnFull(self.width)
 
         self.assertEqual(e.exception.args[0], self.get_out_of_range_message(self.width))
+
+    def test_raise_error_when_checking_winner_with_no_winner(self):
+
+        self.assertTrue(False)
