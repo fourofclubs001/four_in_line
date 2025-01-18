@@ -101,40 +101,33 @@ class FourInLine:
 
         return sameInLine
 
-    def updateWinnerByStraightLine(self, 
-                                   firstAxisLenght: int,
-                                   secondAxisLenght: int,
-                                   checkLineOnFirstAxis: bool):
+    def updateWinnerByHorizontal(self):
 
         sameInLine = 0
 
-        for firstAxis in range(firstAxisLenght):
+        for row in range(self.height):
 
-            for secondAxis in range(1, secondAxisLenght):
+            for column in range(1, self.width):
 
-                if not checkLineOnFirstAxis:
+                if self.board[row][column-1] == self.board[row][column]:
 
-                    if self.board[firstAxis][secondAxis-1] == self.board[firstAxis][secondAxis]:
+                    sameInLine = self.updateConsecutiveChip(sameInLine, row, column)
 
-                        sameInLine = self.updateConsecutiveChip(sameInLine, firstAxis, secondAxis)
-
-                    else: sameInLine = 0
-
-                else:
-
-                    if self.board[secondAxis-1][firstAxis] == self.board[secondAxis][firstAxis]:
-
-                        sameInLine = self.updateConsecutiveChip(sameInLine, secondAxis, firstAxis)
-
-                    else: sameInLine = 0
-
-    def updateWinnerByHorizontal(self):
-
-        self.updateWinnerByStraightLine(self.height, self.width, False)
+                else: sameInLine = 0
 
     def updateWinnerByVertical(self):
 
-        self.updateWinnerByStraightLine(self.width, self.height, True)
+        sameInLine = 0
+
+        for column in range(self.width):
+
+            for row in range(1, self.height):
+
+                if self.board[row-1][column] == self.board[row][column]:
+
+                    sameInLine = self.updateConsecutiveChip(sameInLine, row, column)
+
+                else: sameInLine = 0
 
     def updateWinner(self):
 
