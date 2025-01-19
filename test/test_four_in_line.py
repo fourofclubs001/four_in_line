@@ -127,9 +127,43 @@ class TestFourInLine(unittest.TestCase):
 
         self.assertEqual(self.game.getWinner(), RED_CHIP)
 
-    def test_can_check_when_winner_by_positive_diagonal_line(self):
+    def play_until_almost_win_by_positive_digonal(self, columnOffset: int):
 
-        self.assertTrue(False)
+        self.game.insertAt(columnOffset + 0)   # First BLUE
+        self.game.insertAt(columnOffset + 1)
+        self.game.insertAt(columnOffset + 1)   # Second BLUE
+        self.game.insertAt(columnOffset + 2)
+        self.game.insertAt(columnOffset + 2) 
+        self.game.insertAt(columnOffset + 3)
+        self.game.insertAt(columnOffset + 2)   # Third BLUE
+        self.game.insertAt(columnOffset + 3)
+        self.game.insertAt(columnOffset + 3)
+        self.game.insertAt(columnOffset + 0)
+        # self.game.insertAt(3)   # Fourth BLUE
+
+    def test_can_check_when_winner_by_positive_diagonal_line_at_origin(self):
+
+        self.play_until_almost_win_by_positive_digonal(0)
+
+        self.assertFalse(self.game.isThereAWinner())
+
+        self.game.insertAt(3)
+
+        self.assertTrue(self.game.isThereAWinner())
+
+        self.assertEqual(self.game.getWinner(), BLUE_CHIP)
+
+    def test_can_check_when_winner_by_positive_diagonal_line_from_first_row(self):
+
+        self.play_until_almost_win_by_positive_digonal(self.width-4)
+
+        self.assertFalse(self.game.isThereAWinner())
+
+        self.game.insertAt(4)
+
+        self.assertTrue(self.game.isThereAWinner())
+
+        self.assertEqual(self.game.getWinner(), BLUE_CHIP)
 
     def test_can_check_when_winner_by_negative_diagonal_line(self):
 
