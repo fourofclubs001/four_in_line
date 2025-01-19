@@ -143,11 +143,26 @@ class FourInLine:
                     self.thereIsAWinner = True
                     self.winner = self.board[row][column]
 
+    def updateWinnerByNegativeDiagonal(self):
+
+        for row in range(0, self.height-3):
+
+            for column in range(0, self.width-3):
+
+                if (self.board[row+3][column] == self.board[row+2][column+1] and
+                self.board[row+3][column] == self.board[row+1][column+2] and
+                self.board[row+3][column] == self.board[row][column+3] and
+                self.board[row+3][column] != EMPTY_PLACE):
+
+                    self.thereIsAWinner = True
+                    self.winner = self.board[row+3][column]
+
     def updateWinner(self):
 
         self.updateWinnerByHorizontal()
         self.updateWinnerByVertical()
         self.updateWinnerByPositiveDiagonal()
+        self.updateWinnerByNegativeDiagonal()
 
     def isThereAWinner(self):
 

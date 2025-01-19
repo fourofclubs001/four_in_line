@@ -198,7 +198,29 @@ class TestFourInLine(unittest.TestCase):
 
     def test_can_check_when_winner_by_negative_diagonal_line(self):
 
-        self.assertTrue(False)
+        self.game.insertAt(1 + 3)
+        self.game.insertAt(1 + 2)
+        self.game.insertAt(1 + 1)
+        self.game.insertAt(1 + 0)
+
+        self.game.insertAt(1 + 3)   # First BLUE
+        self.game.insertAt(1 + 2)
+        self.game.insertAt(1 + 2)   # Second BLUE
+        self.game.insertAt(1 + 1)
+        self.game.insertAt(1 + 1) 
+        self.game.insertAt(1 + 0)
+        self.game.insertAt(1 + 1)   # Third BLUE
+        self.game.insertAt(1 + 0)
+        self.game.insertAt(1 + 0)
+        self.game.insertAt(1 + 3)
+
+        self.assertFalse(self.game.isThereAWinner())
+
+        self.game.insertAt(1 + 0)   # Fourth BLUE
+
+        self.assertTrue(self.game.isThereAWinner())
+
+        self.assertEqual(self.game.getWinner(), BLUE_CHIP)
 
     def test_can_check_if_there_is_a_winner(self):
 
