@@ -222,17 +222,23 @@ class TestFourInLine(unittest.TestCase):
 
         self.assertEqual(self.game.getWinner(), BLUE_CHIP)
 
-    def test_can_check_if_there_is_a_winner(self):
-
-        self.assertTrue(False)
-
-    def test_can_check_who_is_the_winner(self):
-
-        self.assertTrue(False)
-
     def test_can_check_if_there_is_a_tie(self):
 
-        self.assertTrue(False)
+        game = FourInLine(4, 4)
+
+        for _ in range(2):
+
+            for column in range(4):
+
+                game.insertAt(column)
+
+        for _ in range(2):
+
+            for column in range(3, -1, -1):
+
+                game.insertAt(column)
+
+        self.assertTrue(game.isATie())
 
     def test_can_check_if_game_is_over(self):
 

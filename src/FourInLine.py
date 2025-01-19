@@ -171,3 +171,11 @@ class FourInLine:
     def getWinner(self)-> str:
 
         return self.winner
+
+    def isBoardFull(self)-> bool:
+
+        return all([self.isColumnFull(column) for column in range(self.width)])
+
+    def isATie(self):
+
+        return (not self.isThereAWinner()) and self.isBoardFull()
