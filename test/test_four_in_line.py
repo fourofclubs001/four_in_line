@@ -230,19 +230,51 @@ class TestFourInLine(unittest.TestCase):
 
             for column in range(4):
 
+                self.assertFalse(game.isATie())
+
                 game.insertAt(column)
 
         for _ in range(2):
 
             for column in range(3, -1, -1):
 
+                self.assertFalse(game.isATie())
+
                 game.insertAt(column)
 
         self.assertTrue(game.isATie())
 
-    def test_can_check_if_game_is_over(self):
+    def test_can_check_if_game_is_over_by_winner(self):
 
-        self.assertTrue(False)
+        self.play_until_almost_win_by_horizontal()
+
+        self.assertFalse(self.game.isOver())
+
+        self.game.insertAt(3)
+
+        self.assertTrue(self.game.isOver())
+
+    def test_can_check_if_game_is_over_by_tie(self):
+
+        game = FourInLine(4, 4)
+
+        for _ in range(2):
+
+            for column in range(4):
+
+                self.assertFalse(game.isOver())
+
+                game.insertAt(column)
+
+        for _ in range(2):
+
+            for column in range(3, -1, -1):
+
+                self.assertFalse(game.isOver())
+
+                game.insertAt(column)
+
+        self.assertTrue(game.isOver())
 
     def test_raise_error_when_trying_to_insert_unknow_chip(self):
 

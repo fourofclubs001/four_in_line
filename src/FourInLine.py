@@ -179,3 +179,7 @@ class FourInLine:
     def isATie(self):
 
         return (not self.isThereAWinner()) and self.isBoardFull()
+    
+    def isOver(self):
+
+        return self.isThereAWinner() or self.isATie()
