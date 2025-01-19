@@ -131,15 +131,17 @@ class FourInLine:
 
     def updateWinnerByPositiveDiagonal(self):
 
-        for column in range(0, self.width-3):
+        for row in range(0, self.height-3):
 
-            if (self.board[0][column] == self.board[1][column+1] and
-            self.board[0][column] == self.board[2][column+2] and
-            self.board[0][column] == self.board[3][column+3] and
-            self.board[0][column] != EMPTY_PLACE):
+            for column in range(0, self.width-3):
 
-                self.thereIsAWinner = True
-                self.winner = self.board[0][column]
+                if (self.board[row][column] == self.board[row+1][column+1] and
+                self.board[row][column] == self.board[row+2][column+2] and
+                self.board[row][column] == self.board[row+3][column+3] and
+                self.board[row][column] != EMPTY_PLACE):
+
+                    self.thereIsAWinner = True
+                    self.winner = self.board[row][column]
 
     def updateWinner(self):
 
