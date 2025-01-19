@@ -347,4 +347,12 @@ class TestFourInLine(unittest.TestCase):
 
     def test_raise_error_when_inserting_chip_at_game_over(self):
 
-        self.assertTrue(False)
+        self.play_until_almost_win_by_horizontal()
+
+        self.game.insertAt(3)
+
+        with self.assertRaises(CannotInsertChipAfterIsOver) as e:
+
+            self.game.insertAt(0)
+
+        self.assertEqual(e.exception.args[0], "Can not insert chip after game is over. Check with FourInLine.isOver()")

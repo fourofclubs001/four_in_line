@@ -28,6 +28,12 @@ class CannotGetWinnerWhenThereIsNoWinner(Exception):
 
         super().__init__("Can not FourInLine.getWinner() when there is no winner. Check before using FourInLine.isThereAWinner()")
 
+class CannotInsertChipAfterIsOver(Exception):
+
+    def __init__(self):
+
+        super().__init__("Can not insert chip after game is over. Check with FourInLine.isOver()")
+
 class FourInLine:
 
     def __init__(self, width: int, height: int):
@@ -63,11 +69,16 @@ class FourInLine:
 
             raise CannotInsertChipOnAFullColumn(column)
 
+    def assertIsNotOver(self):
+
+        if self.isOver(): raise CannotInsertChipAfterIsOver
+
     def insertChipAt(self, chip: str, column: int):
 
         self.assertValidChip(chip)
         self.assertColumnInRange(column)
         self.assertColumnIsNotFull(column)
+        self.assertIsNotOver()
 
         for row in range(self.height):
 
