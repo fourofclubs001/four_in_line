@@ -339,7 +339,11 @@ class TestFourInLine(unittest.TestCase):
 
     def test_raise_error_when_checking_winner_with_no_winner(self):
 
-        self.assertTrue(False)
+        with self.assertRaises(CannotGetWinnerWhenThereIsNoWinner) as e:
+
+            self.game.getWinner()
+
+        self.assertEqual(e.exception.args[0], "Can not FourInLine.getWinner() when there is no winner. Check before using FourInLine.isThereAWinner()")
 
     def test_raise_error_when_inserting_chip_at_game_over(self):
 

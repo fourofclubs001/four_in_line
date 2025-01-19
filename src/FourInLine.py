@@ -22,6 +22,12 @@ class CannotInsertChipOnAFullColumn(Exception):
 
         super().__init__(f"Can not insert chip at column {column} because is full")
 
+class CannotGetWinnerWhenThereIsNoWinner(Exception):
+
+    def __init__(self):
+
+        super().__init__("Can not FourInLine.getWinner() when there is no winner. Check before using FourInLine.isThereAWinner()")
+
 class FourInLine:
 
     def __init__(self, width: int, height: int):
@@ -168,8 +174,13 @@ class FourInLine:
 
         return self.thereIsAWinner
     
+    def assertThereIsAWinner(self):
+
+        if not self.isThereAWinner(): raise CannotGetWinnerWhenThereIsNoWinner()
+
     def getWinner(self)-> str:
 
+        self.assertThereIsAWinner()
         return self.winner
 
     def isBoardFull(self)-> bool:
