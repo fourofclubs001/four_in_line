@@ -49,7 +49,7 @@ class FourInLine:
 
     def getBoard(self)-> np.ndarray:
 
-        return self.board
+        return self.board.copy()
     
     def assertValidChip(self, chip: str):
 
