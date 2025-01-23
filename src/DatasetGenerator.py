@@ -18,17 +18,22 @@ class DatasetGenerator:
         self.randomGenerator = randomGenerator
 
         self.boardHistory = []
-        self.moves = []
+        self.moveHistory = []
 
         self.boardHistories = []
+        self.moveHistories = []
 
-    def playRandomGame(self):
+    def restartIfGameIsOver(self):
 
         if self.game.isOver(): 
             
             self.game = FourInLine(self.width, self.height)
             self.boardHistory = []
-            self.moves = []
+            self.moveHistory = []
+
+    def playRandomGame(self):
+
+        self.restartIfGameIsOver()
 
         while not self.game.isOver():
 
@@ -40,7 +45,7 @@ class DatasetGenerator:
             else: randomColumn = np.random.choice(noFullColumns)
             
             self.game.insertAt(randomColumn)
-            self.moves.append(randomColumn)
+            self.moveHistory.append(randomColumn)
 
         self.boardHistory.append(self.game.getBoard())
 
@@ -50,6 +55,7 @@ class DatasetGenerator:
 
             self.playRandomGame()
             self.boardHistories.append(self.getBoardHistory())
+            self.moveHistories.append(self.getMoveHistory())
 
     def getBoardHistory(self):
 
@@ -57,12 +63,16 @@ class DatasetGenerator:
     
     def getBoardHistories(self):
 
-        return self.boardHistories
+        return self.boardHistories.copy()
     
-    def getMoves(self):
+    def getMoveHistory(self):
 
-        return self.moves
+        return self.moveHistory.copy()
     
+    def getMoveHistories(self):
+
+        return self.moveHistories.copy()
+
     def assertThereIsAWinner(self):
 
         isThereAWinner = self.game.isThereAWinner()
@@ -83,4 +93,4 @@ class DatasetGenerator:
         if self.game.getWinner() == BLUE_CHIP: movesStart = 0
         else: movesStart = 1
 
-        return [self.moves[idx] for idx in range(movesStart, len(self.moves), 2)]
+        return [self.moveHistory[idx] for idx in range(movesStart, len(self.moveHistory), 2)]
