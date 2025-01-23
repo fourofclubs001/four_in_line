@@ -115,6 +115,35 @@ class TestDatasetGenerator(unittest.TestCase):
 
         self.assert_can_return_winner_moves(self.redWinMoves, 1)
 
+    def test_can_return_many_games_winners_board_history(self):
+
+        moves = self.blueWinMoves + self.redWinMoves
+
+        datasetGenerator = DatasetGenerator(5,5,iter(moves))
+
+        datasetGenerator.playManyRandomGames(2)
+
+        boards = datasetGenerator.getBoardHistories()
+
+        blueWinDatasetGenerator = DatasetGenerator(5,5,iter(self.blueWinMoves))
+        blueWinDatasetGenerator.playRandomGame()
+        blueWinBoardHistory = blueWinDatasetGenerator.getBoardHistory()
+
+        redWinDatasetGenerator = DatasetGenerator(5,5,iter(self.redWinMoves))
+        redWinDatasetGenerator.playRandomGame()
+        redWinBoardHistory = redWinDatasetGenerator.getBoardHistory()
+
+        self.assert_array_equal_elements_on_lists(boards[0], blueWinBoardHistory)
+        self.assert_array_equal_elements_on_lists(boards[1], redWinBoardHistory)
+
+    def test_can_return_many_games_winners_moves(self):
+
+        self.assertTrue(False)
+
+    def test_can_retry_game_when_there_is_a_tie(self):
+
+        self.assertTrue(False)
+
     def test_raise_exception_when_get_winner_board_history_without_winner(self):
 
         datasetGenerator = DatasetGenerator(self.width, self.height, iter([]))

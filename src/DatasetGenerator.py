@@ -11,13 +11,24 @@ class DatasetGenerator:
 
     def __init__(self, width: int, height: int, randomGenerator):
 
-        self.game = FourInLine(width, height)
+        self.width = width
+        self.height = height
+
+        self.game = FourInLine(self.width, self.height)
         self.randomGenerator = randomGenerator
 
         self.boardHistory = []
         self.moves = []
 
+        self.boardHistories = []
+
     def playRandomGame(self):
+
+        if self.game.isOver(): 
+            
+            self.game = FourInLine(self.width, self.height)
+            self.boardHistory = []
+            self.moves = []
 
         while not self.game.isOver():
 
@@ -33,9 +44,20 @@ class DatasetGenerator:
 
         self.boardHistory.append(self.game.getBoard())
 
+    def playManyRandomGames(self, numberOfGames: int):
+
+        for _ in range(numberOfGames):
+
+            self.playRandomGame()
+            self.boardHistories.append(self.getBoardHistory())
+
     def getBoardHistory(self):
 
-        return self.boardHistory
+        return self.boardHistory.copy()
+    
+    def getBoardHistories(self):
+
+        return self.boardHistories
     
     def getMoves(self):
 
