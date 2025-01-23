@@ -148,7 +148,14 @@ class TestDatasetGenerator(unittest.TestCase):
 
     def test_can_retry_game_when_there_is_a_tie(self):
 
-        self.assertTrue(False)
+        movesToTie = [0,1,2,3]*2 + [3,2,1,0]*2
+        moves = movesToTie + self.blueWinMoves
+
+        datasetGenerator = DatasetGenerator(4,4,iter(moves))
+
+        datasetGenerator.playManyRandomGames(1)
+
+        self.assertEqual(datasetGenerator.game.getWinner(), BLUE_CHIP)
 
     def test_raise_exception_when_get_winner_board_history_without_winner(self):
 

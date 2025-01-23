@@ -53,7 +53,13 @@ class DatasetGenerator:
 
         for _ in range(numberOfGames):
 
-            self.playRandomGame()
+            isATie = True
+
+            while isATie:
+
+                self.playRandomGame()
+                isATie = self.game.isATie()
+                
             self.boardHistories.append(self.getBoardHistory())
             self.moveHistories.append(self.getMoveHistory())
 
