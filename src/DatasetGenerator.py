@@ -28,29 +28,39 @@ class DatasetGenerator:
             self.boardHistory = []
             self.moveHistory = []
 
+    def chooseRandomColumn(self)-> int:
+
+        noFullColumns = [column for column in range(self.game.width) if not self.game.isColumnFull(column)]
+
+        if self.randomGenerator: randomColumn = next(self.randomGenerator)
+        else: randomColumn = np.random.choice(noFullColumns)
+
+        return randomColumn
+
+    def playRandomGameUntilIsOver(self)-> bool:
+
+        self.restartIfGameIsOver()
+
+        while not self.game.isOver():
+
+            self.boardHistory.append(self.game.getBoard())
+
+            randomColumn = self.chooseRandomColumn()
+            self.game.insertAt(randomColumn)
+
+            self.moveHistory.append(randomColumn)
+
+        self.boardHistory.append(self.game.getBoard())
+
+        return self.game.isATie()
+
     def playRandomGame(self):
 
         isATie = True
 
         while isATie:
 
-            self.restartIfGameIsOver()
-
-            while not self.game.isOver():
-
-                self.boardHistory.append(self.game.getBoard())
-
-                noFullColumns = [column for column in range(self.game.width) if not self.game.isColumnFull(column)]
-
-                if self.randomGenerator: randomColumn = next(self.randomGenerator)
-                else: randomColumn = np.random.choice(noFullColumns)
-                
-                self.game.insertAt(randomColumn)
-                self.moveHistory.append(randomColumn)
-
-            self.boardHistory.append(self.game.getBoard())
-
-            isATie = self.game.isATie()
+            isATie = self.playRandomGameUntilIsOver()
 
     def getBoardHistory(self):
 
