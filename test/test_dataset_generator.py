@@ -115,37 +115,6 @@ class TestDatasetGenerator(unittest.TestCase):
 
         self.assert_can_return_winner_moves(self.redWinMoves, 1)
 
-    def assert_can_return_many_games_winners_property_histories(self, getHistories, getHistory):
-
-        moves = self.blueWinMoves + self.redWinMoves
-
-        datasetGenerator = DatasetGenerator(5,5,iter(moves))
-
-        datasetGenerator.playManyRandomGames(2)
-
-        histories = getHistories(datasetGenerator)
-
-        blueWinDatasetGenerator = DatasetGenerator(5,5,iter(self.blueWinMoves))
-        blueWinDatasetGenerator.playRandomGame()
-        blueWinHistory = getHistory(blueWinDatasetGenerator)
-
-        redWinDatasetGenerator = DatasetGenerator(5,5,iter(self.redWinMoves))
-        redWinDatasetGenerator.playRandomGame()
-        redWinHistory = getHistory(redWinDatasetGenerator)
-
-        self.assert_array_equal_elements_on_lists(histories[0], blueWinHistory)
-        self.assert_array_equal_elements_on_lists(histories[1], redWinHistory)
-
-    def test_can_return_many_games_winners_board_histories(self):
-
-        self.assert_can_return_many_games_winners_property_histories(DatasetGenerator.getBoardHistories,
-                                                                     DatasetGenerator.getBoardHistory)
-
-    def test_can_return_many_games_winners_move_histories(self):
-
-        self.assert_can_return_many_games_winners_property_histories(DatasetGenerator.getMoveHistories,
-                                                                     DatasetGenerator.getMoveHistory)
-
     def test_can_retry_game_when_there_is_a_tie(self):
 
         movesToTie = [0,1,2,3]*2 + [3,2,1,0]*2
@@ -153,7 +122,7 @@ class TestDatasetGenerator(unittest.TestCase):
 
         datasetGenerator = DatasetGenerator(4,4,iter(moves))
 
-        datasetGenerator.playManyRandomGames(1)
+        datasetGenerator.playRandomGame()
 
         self.assertEqual(datasetGenerator.game.getWinner(), BLUE_CHIP)
 

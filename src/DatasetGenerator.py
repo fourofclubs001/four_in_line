@@ -20,9 +20,6 @@ class DatasetGenerator:
         self.boardHistory = []
         self.moveHistory = []
 
-        self.boardHistories = []
-        self.moveHistories = []
-
     def restartIfGameIsOver(self):
 
         if self.game.isOver(): 
@@ -33,52 +30,36 @@ class DatasetGenerator:
 
     def playRandomGame(self):
 
-        self.restartIfGameIsOver()
+        isATie = True
 
-        while not self.game.isOver():
+        while isATie:
+
+            self.restartIfGameIsOver()
+
+            while not self.game.isOver():
+
+                self.boardHistory.append(self.game.getBoard())
+
+                noFullColumns = [column for column in range(self.game.width) if not self.game.isColumnFull(column)]
+
+                if self.randomGenerator: randomColumn = next(self.randomGenerator)
+                else: randomColumn = np.random.choice(noFullColumns)
+                
+                self.game.insertAt(randomColumn)
+                self.moveHistory.append(randomColumn)
 
             self.boardHistory.append(self.game.getBoard())
 
-            noFullColumns = [column for column in range(self.game.width) if not self.game.isColumnFull(column)]
-
-            if self.randomGenerator: randomColumn = next(self.randomGenerator)
-            else: randomColumn = np.random.choice(noFullColumns)
-            
-            self.game.insertAt(randomColumn)
-            self.moveHistory.append(randomColumn)
-
-        self.boardHistory.append(self.game.getBoard())
-
-    def playManyRandomGames(self, numberOfGames: int):
-
-        for _ in range(numberOfGames):
-
-            isATie = True
-
-            while isATie:
-
-                self.playRandomGame()
-                isATie = self.game.isATie()
-                
-            self.boardHistories.append(self.getBoardHistory())
-            self.moveHistories.append(self.getMoveHistory())
+            isATie = self.game.isATie()
 
     def getBoardHistory(self):
 
         return self.boardHistory.copy()
     
-    def getBoardHistories(self):
-
-        return self.boardHistories.copy()
-    
     def getMoveHistory(self):
 
         return self.moveHistory.copy()
     
-    def getMoveHistories(self):
-
-        return self.moveHistories.copy()
-
     def assertThereIsAWinner(self):
 
         isThereAWinner = self.game.isThereAWinner()
