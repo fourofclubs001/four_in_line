@@ -1,4 +1,5 @@
 import unittest
+import shutil
 from PIL import Image
 from src.FourInLine import *
 from src.DatasetGenerator import *
@@ -14,12 +15,20 @@ class TestDatasetSaver(unittest.TestCase):
         self.moves = [0,1,0,1,0,1,0]
 
         self.datasetGenerator = DatasetGenerator(self.width, self.height, iter(self.moves))
-        self.datasetSaver = DatasetSaver(self.datasetGenerator, "dataset")
 
+        self.datasetDirectoryName = "dataset"
+        self.datasetSaver = DatasetSaver(self.datasetGenerator,
+                                         self.datasetDirectoryName)
+
+    def tearUp(self):
+
+        shutil.rmtree(self.datasetDirectoryName)
 
     def test_can_convert_game_empty_board_to_image_value(self):
 
-        boardRGBArray = self.datasetSaver.convertToRGBArray(self.datasetGenerator.game.getBoard())
+        self.datasetGenerator.playRandomGame()
+
+        boardRGBArray = self.datasetSaver.convertToRGBArray(self.datasetGenerator.getWinnerBoardHistory()[0])
 
         self.assertTrue(np.array_equal(boardRGBArray, np.zeros((5,5,3))))
 
@@ -74,17 +83,14 @@ class TestDatasetSaver(unittest.TestCase):
         self.assertTrue(np.array_equal(loserChannel, expectedLoserChannel))
         self.assertTrue(np.array_equal(emptyChannel, expectedEmptyChannel))
 
-    def test_can_save_board_as_image_with_each_player_chips_on_different_channel(self):
+    def test_can_save_empty_board_as_image(self):
 
-        moves = [0,1,0,1,0,1,0]
-
-        datasetGenerator = DatasetGenerator(5,5,iter(moves))
-
-        datasetSaver = DatasetSaver(datasetGenerator, "dataset")
-
-        datasetSaver.save(1)
+        self.datasetSaver.save(1)
 
         image = Image.open("dataset/board_0.png")
-        image_array = np.array(image)
+        imageRGBArray = np.array(image)
 
-        self.assertTrue(np.array_equal(image_array, datasetGenerator.getBoardHistory()[0]))
+        expectedBoard = self.datasetGenerator.getWinnerBoardHistory()[0]
+        expectedRGBArray = self.datasetSaver.convertToRGBArray(expectedBoard)
+
+        self.assertTrue(np.array_equal(imageRGBArray, expectedRGBArray))

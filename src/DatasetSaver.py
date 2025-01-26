@@ -29,10 +29,15 @@ class DatasetSaver:
 
     def save(self, numberOfBoards: int):
 
-        board = np.zeros((self.datasetGenerator.width, 
-                          self.datasetGenerator.height, 3))
+        self.datasetGenerator.playRandomGame()
+
+        board = np.repeat('O', 
+                          (self.datasetGenerator.width*
+                           self.datasetGenerator.height)).reshape((self.datasetGenerator.width, 
+                                                                   self.datasetGenerator.height))
         
-        boardImage = Image.fromarray(board)
+        boardRGBArray = self.convertToRGBArray(board)
+        boardImage = Image.fromarray(boardRGBArray.astype(np.uint8))
 
         if not os.path.exists(self.datasetDirectoryName):
 
