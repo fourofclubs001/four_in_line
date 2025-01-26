@@ -9,7 +9,7 @@ class CannotGetWinnerPropertyWhenThereIsNoWinner(Exception):
 
 class DatasetGenerator:
 
-    def __init__(self, width: int, height: int, randomGenerator):
+    def __init__(self, width: int, height: int, randomGenerator = None):
 
         self.width = width
         self.height = height

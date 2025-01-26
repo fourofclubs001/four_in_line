@@ -125,6 +125,20 @@ class TestDatasetGenerator(unittest.TestCase):
         datasetGenerator.playRandomGame()
 
         self.assertEqual(datasetGenerator.game.getWinner(), BLUE_CHIP)
+        self.assertEqual(datasetGenerator.getWinnerMoves(), [0,0,0,0])
+
+
+        boards = []
+        game = FourInLine(4,4)
+
+        for idx in range(0, len(self.blueWinMoves), 2):
+
+            boards.append(game.getBoard())
+            game.insertAt(self.blueWinMoves[idx])
+
+            if idx+1 < len(self.blueWinMoves): game.insertAt(self.blueWinMoves[idx+1])
+
+        self.assert_array_equal_elements_on_lists(datasetGenerator.getWinnerBoardHistory(), boards)
 
     def test_raise_exception_when_get_winner_board_history_without_winner(self):
 
