@@ -20,9 +20,11 @@ class TestDatasetSaver(unittest.TestCase):
         self.datasetSaver = DatasetSaver(self.datasetGenerator,
                                          self.datasetDirectoryName)
 
-    def tearUp(self):
+    def tearDown(self):
 
-        shutil.rmtree(self.datasetDirectoryName)
+        if os.path.exists(self.datasetDirectoryName):
+
+            shutil.rmtree(self.datasetDirectoryName)
 
     def test_can_convert_game_empty_board_to_image_value(self):
 
@@ -94,6 +96,7 @@ class TestDatasetSaver(unittest.TestCase):
         expectedRGBArray = self.datasetSaver.convertToRGBArray(expectedBoard)
 
         self.assertTrue(np.array_equal(imageRGBArray, expectedRGBArray))
+        self.assertFalse(os.path.exists(os.path.join(self.datasetDirectoryName, "board_1.png")))
 
     def test_can_save_boards_from_same_game(self):
 

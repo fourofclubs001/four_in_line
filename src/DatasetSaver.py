@@ -37,7 +37,7 @@ class DatasetSaver:
 
         boards = self.datasetGenerator.getWinnerBoardHistory()
 
-        for idx in range(len(boards)):
+        for idx in range(min(len(boards), numberOfBoards)):
 
             boardRGBArray = self.convertToRGBArray(boards[idx])
             boardImage = Image.fromarray(boardRGBArray.astype(np.uint8))
