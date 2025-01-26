@@ -12,9 +12,9 @@ class TestDatasetSaver(unittest.TestCase):
         self.width = 5
         self.height = 5
 
-        self.moves = [0,1,0,1,0,1,0]
+        self.blueWinMoves = [0,1,0,1,0,1,0]
 
-        self.datasetGenerator = DatasetGenerator(self.width, self.height, iter(self.moves))
+        self.datasetGenerator = DatasetGenerator(self.width, self.height, iter(self.blueWinMoves))
 
         self.datasetDirectoryName = "dataset"
         self.datasetSaver = DatasetSaver(self.datasetGenerator,
@@ -94,3 +94,20 @@ class TestDatasetSaver(unittest.TestCase):
         expectedRGBArray = self.datasetSaver.convertToRGBArray(expectedBoard)
 
         self.assertTrue(np.array_equal(imageRGBArray, expectedRGBArray))
+
+    def test_can_save_boards_from_same_game(self):
+
+        self.datasetSaver.save(5)
+
+        expectedBoards = self.datasetGenerator.getWinnerBoardHistory()
+
+        for idx in range(len(expectedBoards)):
+
+            image = Image.open(f"dataset/board_{idx}.png")
+            imageRGBArray = np.array(image)
+
+            expectedBoard = expectedBoards[idx]
+            expectedRGBArray = self.datasetSaver.convertToRGBArray(expectedBoard)
+            expectedRGBArray = expectedRGBArray.astype(np.uint8)
+
+            self.assertTrue(np.array_equal(imageRGBArray, expectedRGBArray))

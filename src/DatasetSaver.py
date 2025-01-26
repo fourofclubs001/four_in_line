@@ -31,16 +31,15 @@ class DatasetSaver:
 
         self.datasetGenerator.playRandomGame()
 
-        board = np.repeat('O', 
-                          (self.datasetGenerator.width*
-                           self.datasetGenerator.height)).reshape((self.datasetGenerator.width, 
-                                                                   self.datasetGenerator.height))
-        
-        boardRGBArray = self.convertToRGBArray(board)
-        boardImage = Image.fromarray(boardRGBArray.astype(np.uint8))
-
         if not os.path.exists(self.datasetDirectoryName):
 
             os.mkdir(self.datasetDirectoryName)
 
-        boardImage.save(os.path.join(self.datasetDirectoryName, "board_0.png"))
+        boards = self.datasetGenerator.getWinnerBoardHistory()
+
+        for idx in range(len(boards)):
+
+            boardRGBArray = self.convertToRGBArray(boards[idx])
+            boardImage = Image.fromarray(boardRGBArray.astype(np.uint8))
+
+            boardImage.save(os.path.join(self.datasetDirectoryName, f"board_{idx}.png"))
