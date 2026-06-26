@@ -13,4 +13,4 @@ services:
     ports:
       - "${CONTAINER_PORT}:8888"
     volumes:
-      - ${CONTAINER_WORKSPACE}:/workspace
+      - ./:/workspace
