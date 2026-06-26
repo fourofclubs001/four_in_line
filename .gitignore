@@ -1,1 +1,5 @@
 .env
+experiment/data/
+experiment/model.pth
+experiment/training_curves.png
+experiment/example_predictions.png
